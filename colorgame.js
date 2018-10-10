@@ -1,46 +1,10 @@
-// var colors = [
-//   "rgb(255,0,0)",
-//   "rgb(255,255,0)",
-//   "rgb(0,255,0)",
-//   "rgb(0,255,255)",
-//   "rgb(0,0,255)",
-//   "rgb(255,0,255)"
-// ];
-
-// var squares = document.querySelectorAll(".square");
-// var pickedColor = colors[0];
-// var colorDisplay = document.getElementById("colorDisplay");
-// colorDisplay.textContent = pickedColor;
-// for (var i = 0; i < squares.length; i++) {
-//   //add initial colors
-//   squares[i].style.backgroundColor = colors[i];
-//   //add click listener
-//   squares[i].addEventListener("click", function() {
-//     //grab color of picked square
-//     var clickedColor = this.style.backgroundColor;
-
-//     //compare with picked color
-//     if (clickedColor === pickedColor) {
-//       alert("Yesss");
-//     } else {
-//       alert("Nope");
-//     }
-//   });
-// }
-
-var colors = [
-  "rgb(255, 0, 0)",
-  "rgb(255, 255, 0)",
-  "rgb(0, 255, 0)",
-  "rgb(0, 255, 255)",
-  "rgb(0, 0, 255)",
-  "rgb(255, 0, 255)"
-];
+var colors = generateRandomColors(6);
 
 var squares = document.querySelectorAll(".square");
-var pickedColor = colors[0];
+var pickedColor = pickColor();
 var colorDisplay = document.getElementById("colorDisplay");
 var messageDisplay = document.querySelector("#message");
+var h1 = document.querySelector("#topic");
 
 colorDisplay.textContent = pickedColor;
 
@@ -52,10 +16,12 @@ for (var i = 0; i < squares.length; i++) {
   squares[i].addEventListener("click", function() {
     //grab color of clicked squares
     var clickedColor = this.style.background;
+    console.log(clickedColor, pickedColor);
     //compare color to pickedColor
     if (clickedColor === pickedColor) {
       messageDisplay.textContent = "Correct";
       changeColors(clickedColor);
+      h1.style.background = clickedColor;
     } else {
       this.style.background = "#232323";
       messageDisplay.textContent = "Try Again";
@@ -68,4 +34,33 @@ function changeColors(color) {
     //change each color to match picked color
     squares[i].style.background = color;
   }
+}
+function pickColor() {
+  var random = Math.floor(Math.random() * colors.length);
+  return colors[random];
+}
+function generateRandomColors(num) {
+  //make array
+  var arr = [];
+
+  //loop
+  for (var i = 0; i < num; i++) {
+    //get random color and push it into array
+    arr.push(randomColor());
+  }
+
+  //return array
+  return arr;
+}
+function randomColor() {
+  //pick a "red" from 0-255
+  var r = Math.floor(Math.random() * 256);
+
+  //pick a "green" from 0-255
+  var g = Math.floor(Math.random() * 256);
+
+  //pick a "blue" from 0-255
+  var b = Math.floor(Math.random() * 256);
+  //"rgb(r,g,b)" eg."rgb(255,255,255)"
+  return "rgb(" + r + ", " + g + ", " + b + ")";
 }
